@@ -19,6 +19,20 @@ def memeify(url, top, bot, left, upper, right, lower):
     except URLError, e:
         print "URL Error:",e.reason , url
     
+
+    #check if only a portion of the cropping variables have been filled out
+    if (left or upper or right or lower) and not (left and upper and right and lower):
+        width, height = img.size
+        if not left:
+            left = 0
+        if not upper:
+            upper = 0
+        if not right:
+            right = width
+        if not lower:
+            lower = height
+        
+    #if all cropping variables are valid crop the image before continuing
     if left and upper and right and lower and int(right) > int(left) and int(upper) < int(lower):
         box = (int(left),int(upper), int(right), int(lower))
         img = img.crop(box)
