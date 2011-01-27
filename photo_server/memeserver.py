@@ -1,11 +1,11 @@
 from memeify import memeify
 import cherrypy
 class HelloWorld:
-    def index(self, url = None, top = None, bot = None, left = None, upper = None, right = None, lower = None):
+    def index(self, url = None, top = None, bot = None, x = None, y = None, width = None, height = None):
         if not url:
             return "no url"
         cherrypy.response.headers["Content-Type"] = "image/jpeg"
-        return memeify(url, top, bot, left, upper, right, lower)
+        return memeify(url, top, bot, x, y, width, height)
     index.exposed = True
 
 cherrypy.quickstart(HelloWorld(), "/", "cherrypy_config.py")
