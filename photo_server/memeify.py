@@ -28,9 +28,9 @@ def memeify(url, top, bot, x, y, width, height):
         if not y:
             y = "0"
         if not width:
-            width = width1
+            width = width1 - int(x)
         if not height:
-            height = height1
+            height = height1 - int(y)
         
     #if all cropping variables are valid crop the image before continuing
     if x and y and width and height and int(width) > 0 and int(height) > 0:
