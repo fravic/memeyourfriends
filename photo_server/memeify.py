@@ -6,7 +6,7 @@ from PIL import ImageFont
 from PIL import Image
 from PIL import ImageDraw
 
-def memeify(url, top, bot, left, upper, right, lower):
+def memeify(url, top, bot, x, y, width, height):
     req = Request(url)
 
     try:
@@ -21,20 +21,20 @@ def memeify(url, top, bot, left, upper, right, lower):
     
 
     #check if only a portion of the cropping variables have been filled out
-    if (left or upper or right or lower) and not (left and upper and right and lower):
-        width, height = img.size
-        if not left:
-            left = 0
-        if not upper:
-            upper = 0
-        if not right:
-            right = width
-        if not lower:
-            lower = height
+    if (x or y or width or height) and not (x and y and width and height):
+        width1, height1 = img.size
+        if not x:
+            x = "0" #needs to be a string to be evaluated properly in the next conditional statement (HACK)
+        if not y:
+            y = "0"
+        if not width:
+            width = width1 - int(x)
+        if not height:
+            height = height1 - int(y)
         
     #if all cropping variables are valid crop the image before continuing
-    if left and upper and right and lower and int(right) > int(left) and int(upper) < int(lower):
-        box = (int(left),int(upper), int(right), int(lower))
+    if x and y and width and height and int(width) > 0 and int(height) > 0:
+        box = (int(x),int(y), int(x) + int(width), int(y) + int(height))
         img = img.crop(box)
 
     if top: 
@@ -147,7 +147,7 @@ if __name__ == '__main__':
                 bot += " "
             bot += words[random.randint(0, len(words) - 1)]
 
-        raw = memeify(url, top, bot, 100, 100, 700, 700)
+        raw = memeify(url, top, bot, 100, 100, 300, 700)
         data = cStringIO.StringIO(raw)        
         img = Image.open(data)
         img.save("meme1" + str(count) + ".jpg")

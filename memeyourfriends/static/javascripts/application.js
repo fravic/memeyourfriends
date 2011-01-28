@@ -1,8 +1,8 @@
 /* Application Javascript */
 function _Application() {
-    var APP_ID = "1c6f5e338c7989f098ad50f8c1224878";
+    var APP_ID = "6d1dda329a51cacc3bee5e0de958bb5d";
     var MEME_GEN = "http://www.willhughes.ca:8080";
-    var LOCAL_MEME_GEN = "http://web1.tunnlr.com:11583/meme"
+    var LOCAL_MEME_GEN = "http://memeyourfriends.appspot.com/meme"
 
     function loadFBAPIComplete(response) {
 	if (response.session) {

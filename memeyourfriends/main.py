@@ -2,19 +2,20 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 from google.appengine.api.urlfetch import fetch
-from MultipartPostHandler import *
+from poster.encode import multipart_encode
+from poster.streaminghttp import register_openers
 import facebook as fb
 import os
 import urllib
 import urllib2
 import logging
 import utils
-import cStringIO as StringIO
-
-APP_KEY = "1c6f5e338c7989f098ad50f8c1224878"
-APP_SECRET = "7d6557c4b9ce6d061b7047041d6538b0"
+import StringIO
+import settings
+APP_KEY = settings.app_key
+APP_SECRET = settings.secret_key
 GRAPH_PHOTO_URL = "https://graph.facebook.com/me/photos"
-MEME_URL = "http://www.willhughes.ca:8080"
+MEME_URL = "http://www.willhughes.ca:8080/"
 
 
 class MainHandler(webapp.RequestHandler):
@@ -41,42 +42,28 @@ class MemeHandler(webapp.RequestHandler):
                                         'bot':bot})
         logging.info(MEME_URL + '?' + meme_params)
         meme_data = fetch(MEME_URL + '?' + meme_params)
-        logging.info(len(meme_data.content))
         
+        if (len(meme_data.content) < 100):
+            logging.info(meme_data.content)
+        logging.info("version 4 baby!")
         # Post photo and message to user's album
         msg = top + " " + bot
-#        post_data = {   
-#            "access_token": access_token,
-#            "message": msg,
-#            "source": meme_data.content
-#            }
-        logging.info(access_token)
-#        response = fetch(GRAPH_PHOTO_URL,
-#              payload = post_data,
-#              method = "POST",
-#              headers = {"Content-Type":
-#                             "multipart/form-data"})
-#        request = urllib2.Request(GRAPH_PHOTO_URL, urllib.urlencode(post_data),
-#                                   {"Content-Type":
-#                             "multipart/form-data"})
-#        response = urllib2.urlopen(request)
-#
-#        out = utils.posturl('https://graph.facebook.com/me/photos', [('access_token', access_token)], [('source', 'upload.jpg', str(response.read()))])
-#        logging.info(out)
 
-        opener = urllib2.build_opener(MultipartPostHandler)
+        logging.info(access_token)
+
+        imgData = StringIO.StringIO(meme_data.content)
+        imgData.name = "image.jpg"
+        register_openers()
         params = {   
                     "access_token": access_token,
                      "message": msg,
-                  "source": StringIO.StringIO(meme_data.content)
-                                   }
-        try:
-            opener.open(GRAPH_PHOTO_URL, params).read()
-        except urllib2.HTTPError, ex:
-            logging.info(ex.message)
-        logging.info
-
-
+                  "source": imgData
+                }
+                
+        datagen, headers = multipart_encode(params)
+        request = urllib2.Request(GRAPH_PHOTO_URL, datagen, headers)
+        print urllib2.urlopen(request).read()
+        
 def main():
     routes = [('/', MainHandler),
               ('/meme', MemeHandler)]
