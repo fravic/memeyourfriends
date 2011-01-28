@@ -23,11 +23,15 @@ var load = function(e) {
     var bot = document.getElementById('bot');
     var sub = document.getElementById('submitBtm');
  
+    var loading = document.createElement('Div');
+    loading.appendChild(document.createTextNode('Loading...'));
+
     reset.parentNode.removeChild(reset);
     cropP.removeChild(cropBox);
 
     img.className = 'resized';
 
+    img.addEventListener('load', pictureLoaded, false);
     url.addEventListener('change', changePicture, false);
     crop.addEventListener('click', toggleCrop, false);
     rCrop.addEventListener('click', resetCrop, false);
@@ -49,11 +53,21 @@ var load = function(e) {
         if(cropping) {
             toggleCrop();
         }
-        
+     
+        img.parentNode.appendChild(loading);
+        img.style.display = 'none';
+
         var p = crop.parentNode;
         p.replaceChild(reset, crop);
         p.removeChild(rCrop);
         cropP.removeChild(cropBox);
+    }
+
+    function pictureLoaded(e) {
+        try {
+            loading.parentNode.removeChild(loading);
+            img.style.display = '';
+        } catch(e) { }
     }
 
     function resetPicture(e) {
@@ -66,28 +80,41 @@ var load = function(e) {
     }
 
     function changePicture(e) {
-        img.className = '';
-        img.src = url.value;
-        var w = img.width;
-        var h = img.height;
-
-        img.className = 'resized';
-
-        if(e) {
-            bounds = {
-                x: 0,
-                y: 0,
-                cWidth: img.width,
-                cHeight: img.height,
-                tWidth: img.width,
-                tHeight: img.height,
-                aWidth: w,
-                aHeight: h
-            };
+        if(img.src !== url.value) {
+            img.addEventListener('load', resize, false);
+            img.src = url.value;
+        } else {
+            resize();
         }
+        
+        function resize(resizeEvent) {
+            img.removeEventListener('load', resize, false);
 
-        cropBox.style.width = bounds.tWidth;
-        cropBox.style.height = bounds.tHeight;
+            img.className = '';
+            var w = img.width;
+            var h = img.height;
+
+            img.className = 'resized';
+
+            if(e) {
+                bounds = {
+                    x: 0,
+                    y: 0,
+                    cWidth: img.width,
+                    cHeight: img.height,
+                    tWidth: img.width,
+                    tHeight: img.height,
+                    aWidth: w,
+                    aHeight: h
+                };
+                if(cropBox) {
+                    cropBox.innerHTML = '';
+                }
+            }
+
+            cropBox.style.width = bounds.tWidth;
+            cropBox.style.height = bounds.tHeight;
+        }
     }
 
     var dotSize = 12;
