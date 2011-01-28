@@ -9,17 +9,21 @@
     <h1>MEME YOUR FRIENDS</h1>
 
     <div id='img'>
-        <label for='img'>Picture URL</label>
-        <input id='imgInput' name='img' type='text' />
-        <img />
-        <button id='crop'>Crop Image</button>
+        <label for='imgInput'>Picture URL</label>
+        <input id='imgInput' type='text' />
+        <button id='crop'>Start Cropping</button>
+        <button id='cropReset'>Reset Cropping</button>
+        <button id='reset'>Reset Picture</button>
+        <img id='initImg' />
+        <div id='cropBox'></div>
     </div>
 
     <div id='text'>
         <label for='top'>Top Caption</label>
-        <input id='top' name='top' type='text' />
+        <input id='top' type='text' />
         <label for='bot'>Bottom Caption</label>
-        <input id='bot' name='bot' type='text' />
+        <input id='bot' type='text' />
+        <button id='submitBtm'>Submit</button>
     </div>
 
 </body>
