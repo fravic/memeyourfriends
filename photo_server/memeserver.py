@@ -1,7 +1,7 @@
 from memeify import memeify
 import cherrypy
 class HelloWorld:
-    def index(self, url = None, top = None, bot = None, x = None, y = None, width = None, height = None):
+    def index(self, url = None, top = None, bot = None, x = None, y = None, width = None, height = None, img = None):
         if not url:
             return file('../html/index.html').read()
         cherrypy.response.headers["Content-Type"] = "image/jpeg"

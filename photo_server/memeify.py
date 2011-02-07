@@ -72,13 +72,13 @@ def drawText(img, text, top):
         y = fh * i if top else height - fh * (len(text_array) - i)
 
         border = fh / 40 + 1
-        
-        draw.text((x-border, y-border), line, (0,0,0), font=font)
-        draw.text((x+border, y-border), line, (0,0,0), font=font)
-        draw.text((x-border, y+border), line, (0,0,0), font=font)
-        draw.text((x+border, y+border), line, (0,0,0), font=font)
 
-        draw.text((x, y), line, (255,255,255), font=font)    
+        draw.text((x-border, y-border), line, "black", font=font)
+        draw.text((x+border, y-border), line, "black", font=font)
+        draw.text((x-border, y+border), line, "black", font=font)
+        draw.text((x+border, y+border), line, "black", font=font)
+
+        draw.text((x, y), line, "white", font=font)    
 
 def get_font_size(length, width, height, ratio):
     font_size = 2 * int(ratio * math.sqrt( (width * height / 5) / (2 * length)))
