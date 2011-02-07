@@ -3,7 +3,7 @@ var load = function(e) {
 
     var url = document.getElementById('imgInput');
     var img = document.getElementById('initImg');
-    var crop = document.getElementById('crop');
+    var tCrop = document.getElementById('crop');
     var rCrop = document.getElementById('cropReset');
     var reset = document.getElementById('reset');
     var top = document.getElementById('top');
@@ -19,7 +19,7 @@ var load = function(e) {
 
     events(img, 'load', pictureLoaded);
     events(url, 'change', changePicture);
-    events(crop, 'click', toggleCrop);
+    events(tCrop, 'click', toggleCrop);
     events(rCrop, 'click', resetCrop);
     events(reset, 'click', resetPicture);
     events(sub, 'click', submit);
@@ -48,9 +48,9 @@ var load = function(e) {
         img.style.display = 'none';
 
         try {
-            var p = crop.parentNode;
+            var p = tCrop.parentNode;
             p.removeChild(rCrop);
-            p.replaceChild(reset, crop);
+            p.replaceChild(reset, tCrop);
             crop.hide();
         } catch(e) {}
     }
@@ -66,7 +66,7 @@ var load = function(e) {
         changePicture();
         var p = reset.parentNode;
         p.replaceChild(rCrop, reset);
-        p.insertBefore(crop, rCrop);
+        p.insertBefore(tCrop, rCrop);
         toggleCrop();
         toggleCrop();
     }
