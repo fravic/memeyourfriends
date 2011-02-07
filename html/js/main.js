@@ -1,3 +1,5 @@
+var APP_ID = "1c6f5e338c7989f098ad50f8c1224878";
+
 var load = function(e) {
     bounds = {
         x: 0,
@@ -321,9 +323,27 @@ var load = function(e) {
         if(!pos) {
             box.style.width  = (bounds.cWidth  - bounds.x - 2) + 'px';
             box.style.height = (bounds.cHeight - bounds.y - 2) + 'px';
-        }
-            
+        }            
     }
+
+    function getLoginStatusHandler(response) {
+	var fbCookie;
+	if (response.session) {
+	} else {
+	}
+    }
+
+    function postToFacebook() {
+	fbCookie = getCookie("fbs_" + APP_ID);
+	token = getParam("access_token", fbCookie);
+	ajaxRequest(POST_TO_FB_URL, "token:"+token);
+    }
+
+    FB.init({appId: APP_ID,
+		status: true,
+		cookie: true,
+		xfbml: true});
+    FB.getLoginStatus(getLoginStatusHandler);
 };
 
 events(window, 'load', load);
@@ -346,3 +366,48 @@ function events(node, type, callback, remove) {
     }
 }
 
+function getCookie(c_name) {
+    var i, x, y, cookies = document.cookie.split(";");
+    for (i = 0; i < cookies.length; i++) {
+	x = cookies[i].substr(0,cookies[i].indexOf("="));
+	y = cookies[i].substr(cookies[i].indexOf("=") + 1);
+	x = x.replace(/^\s+|\s+$/g,"");
+	if (x == c_name) {
+	    return unescape(y);
+	}
+    }
+}
+
+function getParam(name, params) {
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(params);
+    if( results == null ) {
+	return "";
+    } else {
+	return results[1];
+    }
+}
+
+function ajaxRequest(url, params, callback) {
+    var xmlhttp;
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    if (window.XMLHttpRequest) {
+	xmlhttp=new XMLHttpRequest();
+    // code for IE6, IE5
+    } else {
+	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    if (callback != null) {
+	xmlhttp.onreadystatechange = function() {
+	    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		callback(xmlhttp.responseText);
+	    }
+	}
+    }
+
+    xmlhttp.open("POST", url, true);
+    xmlhttp.send(params);
+}
