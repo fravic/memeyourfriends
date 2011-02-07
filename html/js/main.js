@@ -23,7 +23,7 @@ var load = function(e) {
     try {
         var imgP = getParam('img', location.search);
         if(imgP) {
-            url.value = imgP;
+            url.value = unescape(imgP);
             changePicture({});
         }
     } catch(e) { }
