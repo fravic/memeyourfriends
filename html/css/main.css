@@ -1,5 +1,7 @@
 body.noselect * {
     -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 label {
@@ -12,18 +14,16 @@ img {
 
 .resized {
     min-width: 100px;
-    max-width: 100%;
 }
 
 #img, #text {
     position: relative;
     display: inline-block;
-    width: 49%;
     vertical-align: top;
 }
 
-#img {
-    margin-bottom: 25px;
+#text {
+    width: 250px;
 }
 
 #submit {
@@ -31,16 +31,18 @@ img {
     margin: 15px 45%;
 }
 
-#img input {
+#text input {
     display: block;
 }
 
-#img button {
+#crop, #cropReset {
+    display: inline-block;
     margin-bottom: 20px;
 }
 
 #cropBox {
     position: absolute;
+    top: 0px;
     left: 0px;
     overflow: hidden;
 }
@@ -54,6 +56,22 @@ img {
     border: 1px solid black;
 }
 
+#cropBox>.dot#Dot0 {
+    cursor: nw-resize;
+}
+
+#cropBox>.dot#Dot1 {
+    cursor: ne-resize;
+}
+
+#cropBox>.dot#Dot2 {
+    cursor: sw-resize;
+}
+
+#cropBox>.dot#Dot3 {
+    cursor: se-resize;
+}
+
 #cropBox>.box {
     position: absolute;
     z-index: 1;
@@ -61,6 +79,7 @@ img {
     background: rgba(255, 255, 255, 0);
     filter: alpha(opacity=0);
     border: 1px solid black;
+    cursor: move;
 }
 
 #cropBox>.blur {
@@ -75,7 +94,7 @@ img {
     margin-bottom: 20px;
 }
 
-#text button {
-    display: block;
+.content {
+    margin-top: 25px;    
 }
 

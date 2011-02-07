@@ -21,32 +21,33 @@
     <h1>MEME YOUR FRIENDS</h1>
 
     <div id='text'>
-        <label for='top'>Top Caption</label>
-        <input id='top' type='text' />
-        <label for='bot'>Bottom Caption</label>
-        <input id='bot' type='text' />
-        <button id='submitBtm'>Submit</button>
-    </div>
-
-    <div id='img'>
         <label for='imgInput'>Picture URL</label>
         <input id='imgInput' type='text' />
         <button id='crop'>Start Cropping</button>
         <button id='cropReset'>Reset Cropping</button>
         <button id='reset'>Reset Picture</button>
+
+        <label for='top'>Top Caption</label>
+        <input id='top' type='text' />
+        <label for='bot'>Bottom Caption</label>
+        <input id='bot' type='text' />
+        <button id='submitBtm'>Submit</button>
+
+        <div class="content">
+          <fb:login-button
+             length="long"
+             size="large"
+             perms="user_photos,publish_stream">
+          </fb:login-button>
+        </div>
+    </div>
+
+    <div id='img'>
         <img id='initImg' />
         <div id='cropBox'></div>
     </div>
 
     <div id="fb-root"></div>
-
-    <div class="content">
-      <fb:login-button
-         length="long"
-         size="large"
-         perms="user_photos,publish_stream">
-      </fb:login-button>
-    </div>
 
 </body>
 </html>

@@ -71,7 +71,6 @@ function createCrop() {
             }
         } else {
             cropP.appendChild(cropBox);
-            cropBox.style.top = img.offsetTop + 'px';
             crop.innerHTML = 'Finish Cropping';
             
             var blurs = [];
@@ -93,7 +92,7 @@ function createCrop() {
             var dots = [];
             for(var i = 0; i < 4; i++) {
                 var dot = document.createElement('Div');
-                dot.className = 'dot';
+                dot.className = 'dot ' + i;
                 dot.id = 'Dot' + i;
                 events(dot, 'mousedown', startDrag);
                 dots.push(dot);

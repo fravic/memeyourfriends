@@ -13,6 +13,9 @@ var load = function(e) {
     var loading = document.createElement('Div');
     loading.appendChild(document.createTextNode('Loading...'));
 
+    var srvErrorNode = document.createElement('Div');
+    srvErrorNode.appendChild(document.createTextNode('ERROR: Picture could not load'));
+
     reset.parentNode.removeChild(reset);
 
     img.className = 'resized';
@@ -40,6 +43,8 @@ var load = function(e) {
         if(img.src === src) {
             return;
         }
+
+        events(img, 'error', srvError);
         img.src = src;
 
         crop.endCrop();
@@ -47,12 +52,24 @@ var load = function(e) {
         img.parentNode.appendChild(loading);
         img.style.display = 'none';
 
+        url.disabled = true;
+        top.disabled = true;
+        bot.disabled = true;
+        sub.parentNode.removeChild(sub);
+
         try {
             var p = tCrop.parentNode;
             p.removeChild(rCrop);
             p.replaceChild(reset, tCrop);
             crop.hide();
         } catch(e) {}
+
+        function srvError(e) {
+            try {
+                img.parentNode.appendChild(srvErrorNode);
+                loading.parentNode.removeChild(loading);
+            } catch(e) { }
+        }
     }
 
     function pictureLoaded(e) {
@@ -63,7 +80,21 @@ var load = function(e) {
     }
 
     function resetPicture(e) {
+        img.style.display = '';
         changePicture();
+
+        if(srvErrorNode.parentNode) {
+            srvErrorNode.parentNode.removeChild(srvErrorNode);
+        }
+        if(loading.parentNode) {
+            loading.parentNode.removeChild(loading);
+        }
+
+        url.disabled = false;
+        top.disabled = false;
+        bot.disabled = false;
+        bot.parentNode.insertBefore(sub, bot.nextSibling);
+
         var p = reset.parentNode;
         p.replaceChild(rCrop, reset);
         p.insertBefore(tCrop, rCrop);
@@ -73,7 +104,9 @@ var load = function(e) {
 
     function changePicture(e) {
         if(img.src !== url.value) {
-            events(img, 'load', resize);
+            if(e) {
+                events(img, 'load', resize);
+            }
             img.src = url.value;
         } else {
             resize();
@@ -82,11 +115,12 @@ var load = function(e) {
         function resize(resizeEvent) {
             events(img, 'load', resize, true);
 
-            img.className = '';
+            img.style.maxWidth = '';
             var w = img.width;
             var h = img.height;
 
-            img.className = 'resized';
+            img.style.maxWidth = '1px';
+            img.style.maxWidth = (document.width - 285) + 'px';
             var w2 = img.width;
             var h2 = img.height;
 
