@@ -1,0 +1,83 @@
+<html>
+<head>
+<style>
+@-webkit-keyframes rot {
+    from {
+        -webkit-transform: rotate(0deg) scale(2);
+    }
+    50% {
+        -webkit-transform: rotate(180deg) scale(2);
+    }
+    100% {
+        -webkit-transform: rotate(360deg) scale(2);
+    }
+}
+
+@-webkit-keyframes rotb {
+    from {
+        -webkit-transform: rotate(360deg) scale(3);
+    }
+    50% {
+        -webkit-transform: rotate(180deg) scale(3);
+    }
+    100% {
+        -webkit-transform: rotate(0deg) scale(3);
+    }
+}
+#p {
+    position: relative;
+    top: 200px;
+    margin: auto;
+    width: 250px;
+    height: 300px;
+    background: url('http://a4.sphotos.ak.fbcdn.net/hphotos-ak-snc6/hs308.snc6/181690_399179153940_583768940_4182249_4378598_n.jpg');
+    -webkit-animation: rot 80s linear infinite;
+}
+
+#f {
+    position: absolute;
+    -webkit-animation: rot 120s linear infinite;
+}
+
+#b {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    -webkit-animation: rotb 120s linear infinite;
+}
+
+div {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+}
+
+</style>
+
+<script>
+window.onload = function() {
+    b = document.getElementById('b');
+    f = document.getElementById('f');
+
+    w = document.body.children[0].offsetWidth;
+    h = document.body.children[0].offsetHeight;
+
+    f.style.left = ((w - f.offsetWidth) / 2) + 'px';
+    f.style.top = ((h - f.offsetHeight) / 2) + 'px';
+    b.style.left = ((w - b.offsetWidth) / 2) + 'px';
+    b.style.top = ((h - b.offsetHeight) / 2) + 'px';
+};
+</script>
+
+</head>
+<body>
+<div><img id="b" src="img/bg.jpg"></img><img id="f" src='http://a4.sphotos.ak.fbcdn.net/hphotos-ak-snc6/hs308.snc6/181690_399179153940_583768940_4182249_4378598_n.jpg'></img></div>
+<div id="p"></div>
+</body>
+</html>
+
