@@ -20,6 +20,15 @@ var load = function(e) {
 
     img.className = 'resized';
 
+    try {
+        var imgP = getParam('img', location.search);
+        if(imgP) {
+            url.value = imgP;
+            changePicture({});
+        }
+    } catch(e) { }
+
+
     events(img, 'load', pictureLoaded);
     events(url, 'change', changePicture);
     events(tCrop, 'click', toggleCrop);
