@@ -52,11 +52,6 @@ var load = function(e) {
         img.parentNode.appendChild(loading);
         img.style.display = 'none';
 
-        url.disabled = true;
-        top.disabled = true;
-        bot.disabled = true;
-        sub.parentNode.removeChild(sub);
-
         try {
             var p = tCrop.parentNode;
             p.removeChild(rCrop);
@@ -89,11 +84,6 @@ var load = function(e) {
         if(loading.parentNode) {
             loading.parentNode.removeChild(loading);
         }
-
-        url.disabled = false;
-        top.disabled = false;
-        bot.disabled = false;
-        bot.parentNode.insertBefore(sub, bot.nextSibling);
 
         var p = reset.parentNode;
         p.replaceChild(rCrop, reset);
