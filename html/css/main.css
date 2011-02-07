@@ -22,6 +22,10 @@ img {
     vertical-align: top;
 }
 
+#img {
+    margin-bottom: 25px;
+}
+
 #submit {
     width: 10%;
     margin: 15px 45%;

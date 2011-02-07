@@ -5,13 +5,24 @@
 <html>
 <head>
 <title>Meme Your Friends</title>
+
 <script src="http://connect.facebook.net/en_US/all.js"></script>
 <script src='js/main.js'></script>
+
 <link rel='stylesheet' href='css/main.css' />
+
 </head>
 <body>
 
     <h1>MEME YOUR FRIENDS</h1>
+
+    <div id='text'>
+        <label for='top'>Top Caption</label>
+        <input id='top' type='text' />
+        <label for='bot'>Bottom Caption</label>
+        <input id='bot' type='text' />
+        <button id='submitBtm'>Submit</button>
+    </div>
 
     <div id='img'>
         <label for='imgInput'>Picture URL</label>
@@ -21,14 +32,6 @@
         <button id='reset'>Reset Picture</button>
         <img id='initImg' />
         <div id='cropBox'></div>
-    </div>
-
-    <div id='text'>
-        <label for='top'>Top Caption</label>
-        <input id='top' type='text' />
-        <label for='bot'>Bottom Caption</label>
-        <input id='bot' type='text' />
-        <button id='submitBtm'>Submit</button>
     </div>
 
     <div id="fb-root"></div>
