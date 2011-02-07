@@ -58,16 +58,18 @@ var load = function(e) {
             p.replaceChild(reset, tCrop);
             crop.hide();
         } catch(e) {}
+    }
 
-        function srvError(e) {
-            try {
-                img.parentNode.appendChild(srvErrorNode);
-                loading.parentNode.removeChild(loading);
-            } catch(e) { }
-        }
+    function srvError(e) {
+        events(img, 'error', srvError, true);
+        try {
+            img.parentNode.appendChild(srvErrorNode);
+            loading.parentNode.removeChild(loading);
+        } catch(e) { }
     }
 
     function pictureLoaded(e) {
+        events(img, 'error', srvError, true);
         try {
             loading.parentNode.removeChild(loading);
             img.style.display = '';
