@@ -31,23 +31,26 @@ var load = function(e) {
 
     img.className = 'resized';
 
-    img.addEventListener('load', pictureLoaded, false);
-    url.addEventListener('change', changePicture, false);
-    crop.addEventListener('click', toggleCrop, false);
-    rCrop.addEventListener('click', resetCrop, false);
-    reset.addEventListener('click', resetPicture, false);
-    sub.addEventListener('click', submit, false);
+    events(img, 'load', pictureLoaded);
+    events(url, 'change', changePicture);
+    events(crop, 'click', toggleCrop);
+    events(rCrop, 'click', resetCrop);
+    events(reset, 'click', resetPicture);
+    events(sub, 'click', submit);
 
     function submit(e) {
         var x = parseInt((bounds.x / bounds.tWidth) * bounds.aWidth);
         var width = parseInt((bounds.cWidth / bounds.tWidth) * bounds.aWidth) - x;
         var y = parseInt((bounds.y / bounds.tHeight) * bounds.aHeight);
         var height = parseInt((bounds.cHeight / bounds.tHeight) * bounds.aHeight) - y;
-        var params = '?url=' + url.value +
-            '&top=' + top.value + '&bot=' + bot.value +
+        var params = '?url=' + escape(url.value) +
+            '&top=' + escape(top.value) + '&bot=' + escape(bot.value) +
             '&x=' + x + '&width=' + width +
             '&y=' + y + '&height=' + height;
         var src = 'http://www.willhughes.ca:8080/' + params;
+        if(img.src === src) {
+            return;
+        }
         img.src = src;
 
         if(cropping) {
@@ -57,10 +60,12 @@ var load = function(e) {
         img.parentNode.appendChild(loading);
         img.style.display = 'none';
 
-        var p = crop.parentNode;
-        p.replaceChild(reset, crop);
-        p.removeChild(rCrop);
-        cropP.removeChild(cropBox);
+        try {
+            var p = crop.parentNode;
+            p.removeChild(rCrop);
+            p.replaceChild(reset, crop);
+            cropP.removeChild(cropBox);
+        } catch(e) {}
     }
 
     function pictureLoaded(e) {
@@ -81,14 +86,14 @@ var load = function(e) {
 
     function changePicture(e) {
         if(img.src !== url.value) {
-            img.addEventListener('load', resize, false);
+            events(img, 'load', resize);
             img.src = url.value;
         } else {
             resize();
         }
         
         function resize(resizeEvent) {
-            img.removeEventListener('load', resize, false);
+            events(img, 'load', resize, true);
 
             img.className = '';
             var w = img.width;
@@ -96,7 +101,7 @@ var load = function(e) {
 
             img.className = 'resized';
 
-            if(e) {
+            if(e || window.event) {
                 bounds = {
                     x: 0,
                     y: 0,
@@ -140,6 +145,7 @@ var load = function(e) {
             }
         } else {
             cropP.appendChild(cropBox);
+            cropBox.style.top = img.offsetTop + 'px';
             crop.innerHTML = 'Finish Cropping';
             
             var blurs = [];
@@ -163,7 +169,7 @@ var load = function(e) {
                 var dot = document.createElement('Div');
                 dot.className = 'dot';
                 dot.id = 'Dot' + i;
-                dot.addEventListener('mousedown', startDrag, false);
+                events(dot, 'mousedown', startDrag);
                 dots.push(dot);
                 cropBox.appendChild(dot);
             }
@@ -172,7 +178,7 @@ var load = function(e) {
             var box = document.createElement('Div');
             box.className = 'box';
             box.id = 'Box0';
-            box.addEventListener('mousedown', startDrag, false);
+            events(box, 'mousedown', startDrag);
             positionBox(box);
             cropBox.appendChild(box);
             
@@ -183,10 +189,14 @@ var load = function(e) {
             // prevent annoying selection while dragging
             document.body.className = 'noselect';
 
+            if(!e) {
+                e = window.event;
+            }
+
             var sx = e.clientX;
             var sy = e.clientY;
-            var t = e.target;
-            var i = parseInt(t.id[3], 10);
+            var t = e.target || e.srcElement;
+            var i = parseInt(t.id.charAt(3), 10);
             var hor = dots[(i + 1) % 2 + (parseInt(i/2) * 2)];
             var ver = dots[(i + 2) % 4];
             var boundsH = i % 2;
@@ -198,8 +208,8 @@ var load = function(e) {
             var h = bounds.cHeight - bounds.y;
             var update = /Dot/.test(t.id) ? free : move;
 
-            document.body.addEventListener('mousemove', drag, false);
-            document.body.addEventListener('mouseup', endDrag, false);
+            events(document.body, 'mousemove', drag);
+            events(document.body, 'mouseup', endDrag);
 
             function drag(e) {
                 var dx = e.clientX - sx;
@@ -212,8 +222,8 @@ var load = function(e) {
                 // allow non-annoying selection
                 document.body.className = '';
 
-                document.body.removeEventListener('mousemove', drag, false);
-                document.body.removeEventListener('mouseup', drag, false);
+                events(document.body, 'mousemove', drag, true);
+                events(document.body, 'mouseup', endDrag, true);
             }
 
             function free(dx, dy) {
@@ -290,8 +300,8 @@ var load = function(e) {
     function positionDots(dots) {
         for(var i = 0; i < dots.length; i++) {
             var dot = dots[i];
-            dot.style.left = (i % 2) ? (bounds.cWidth  - dotSize) : (bounds.x) + 'px';
-            dot.style.top  = (i > 1) ? (bounds.cHeight - dotSize) : (bounds.y) + 'px';
+            dot.style.left = ((i % 2 == 1) ? (bounds.cWidth  - dotSize) : (bounds.x)) + 'px';
+            dot.style.top  = ((i > 1) ? (bounds.cHeight - dotSize) : (bounds.y)) + 'px';
         }
     }
 
@@ -299,7 +309,7 @@ var load = function(e) {
         for(var i = 0; i < blurs.length; i++) {
             var blur = blurs[i];
             blur.style.left = ((i < 3) ? 0 : (bounds.cWidth)) + 'px';
-            blur.style.width = ((i < 2) ? '100%' : ((i === 2) ? bounds.x : (bounds.tWidth - bounds.cWidth) + 'px'));
+            blur.style.width = ((i < 2) ? bounds.tWidth + 'px' : (((i === 2) ? bounds.x : (bounds.tWidth - bounds.cWidth)) + 'px'));
             blur.style.top = ((i === 0) ? 0 : (i > 1) ? (bounds.y) : bounds.cHeight) + 'px';
             blur.style.height = ((i === 0) ? bounds.y : (i > 1) ? bounds.cHeight - bounds.y : bounds.tHeight - bounds.cHeight) + 'px';
         }
@@ -316,5 +326,23 @@ var load = function(e) {
     }
 };
 
-window.addEventListener('load', load, false);
+events(window, 'load', load);
+
+function events(node, type, callback, remove) {
+    if(window.addEventListener) {
+        if(remove) {
+            node.removeEventListener(type, callback, false);
+        } else {
+            node.addEventListener(type, callback, false);
+        }
+    } else if(window.attachEvent) {
+        if(remove) {
+            node.detachEvent('on' + type, callback);
+        } else {
+            node.attachEvent('on' + type, callback);
+        }
+    } else {
+        alert('This browser is not supported');
+    }
+}
 

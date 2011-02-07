@@ -38,7 +38,7 @@ img {
 #cropBox {
     position: absolute;
     left: 0px;
-    top: 90px;
+    overflow: hidden;
 }
 
 #cropBox>.dot {
@@ -46,21 +46,25 @@ img {
     z-index: 2;
     width: 10px;
     height: 10px;
-    background: blue;
+    background-color: blue;
     border: 1px solid black;
 }
 
 #cropBox>.box {
     position: absolute;
     z-index: 1;
-    background: transparent;
+    background-color: white;
+    background: rgba(255, 255, 255, 0);
+    filter: alpha(opacity=0);
     border: 1px solid black;
 }
 
 #cropBox>.blur {
     position: absolute;
     z-index: 0;
+    background-color: black;
     background: rgba(0, 0, 0, 0.8);
+    filter: alpha(opacity=80);
 }
 
 #text input {
