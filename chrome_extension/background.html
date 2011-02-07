@@ -11,7 +11,7 @@
   <body>
     <script>
       /**
-       * Returns a handler which will open a new window when activated.
+       * Returns a handler which will open a new tab when activated.
        */
       function getClickHandler() {
         return function(info, tab) {
@@ -19,8 +19,7 @@
           // The srcUrl property is only available for image elements.
           var url = 'http://www.willhughes.ca:8080/?img=' + escape(info.srcUrl);
           // Create a new window to the info page.
-          console.log(chrome);
-          chrome.tab.create({ url: url});
+          chrome.tabs.create({ url: url});
         };
       };
 
@@ -33,6 +32,30 @@
         "contexts" : ["image"],
         "onclick" : getClickHandler()
       });
+
+
+      /*
+        Seperate context window for facebook's new images
+      */
+      /*
+      function getClickHandlerFB() {
+        return function(info, tab) {
+          alert(info.frameUrl);
+          // The srcUrl property is only available for image elements.
+          //var url = 'http://www.willhughes.ca:8080/?img=' + escape(info.srcUrl);
+          // Create a new window to the info page.
+         // chrome.tabs.create({ url: url});
+        };
+      };
+
+
+      chrome.contextMenus.create({
+        "title" : "Memeify",
+        "type" : "normal",
+        "contexts" : ["page"],
+        "onclick" : getClickHandlerFB()
+      });*/
+
     </script>
   </body>
 </html>
