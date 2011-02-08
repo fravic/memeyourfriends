@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <!-- Change this if you want to allow scaling -->
+    <meta name="viewport" content="width=default-width; user-scalable=no" />
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <title>memegen</title>
+    
+    <link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="css/ipad.css" type="text/css" />		
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="css/iphone.css" type="text/css" />		
+
+    <!-- If you application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/lib/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/application.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      Meme Your Friends
+    </div>
+    <div class="text">
+      Memify photos of your friends!  Select a photo below, then add captions to it.  Upload the result to Facebook for intense lolz!
+    </div>
+    <div class="formContainer">
+    <form>
+      <input name="caption1"></input>
+      <input name="caption2"></input>
+      <div id="selectImage">Select an Image</div>      
+      <div id="selectCamera">Take a Photo</div>      
+      <img id="memeImg" />
+    </form>
+    </div>
+  </body>
+</html>
+
