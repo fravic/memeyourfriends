@@ -1,4 +1,4 @@
-var APP_ID = "1c6f5e338c7989f098ad50f8c1224878";
+var APP_ID = "123679184369467";
 
 function initFBConnect() {
     FB.init({
