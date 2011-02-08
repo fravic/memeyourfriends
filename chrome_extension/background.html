@@ -1,31 +1,46 @@
 <!DOCTYPE html>
-<!--
- * Copyright (c) 2010 The Chromium Authors. All rights reserved.  Use of this
- * source code is governed by a BSD-style license that can be found in the
- * LICENSE file.
--->
 <html>
   <head>
 
   </head>
   <body>
     <script>
-      /**
-       * Returns a handler which will open a new tab when activated.
-       */
+      // Standard context menu handler
+      // Only appears for img elements
       function getClickHandler() {
         return function(info, tab) {
-
-          // The srcUrl property is only available for image elements.
           var url = 'http://www.willhughes.ca:8080/?img=' + escape(info.srcUrl);
-          // Create a new window to the info page.
-          chrome.tabs.create({ url: url});
+          chrome.tabs.create({url: url});
         };
       };
 
-      /**
-       * Create a context menu which will only show up for images.
-       */
+      // Context menu handler for FB Theater page
+      // Runs code on the FB page that harvests the img src
+      function getClickHandlerFB() {
+        return function(info, tab) {
+          chrome.tabs.executeScript(
+            null,
+            {
+              code: 
+                'var pt = document.getElementById("fbPhotoTheater");' +
+                'var src = pt.getElementsByTagName("img")[0].src;' +
+                'chrome.extension.sendRequest({src: src}, function(response) { console.log(response); });'
+            }
+          );
+        };
+      };
+
+      // event handler that receives the img src from facebook pages
+      chrome.extension.onRequest.addListener(
+        function(request, sender, sendResponse) {
+          if(request.src) {
+            var url = 'http://www.willhughes.ca:8080/?img=' + escape(request.src);
+            chrome.tabs.create({url: url});
+          }
+        }
+      );
+
+      // Create Standard img context menu
       chrome.contextMenus.create({
         "title" : "Memeify",
         "type" : "normal",
@@ -33,29 +48,14 @@
         "onclick" : getClickHandler()
       });
 
-
-      /*
-        Seperate context window for facebook's new images
-      */
-      /*
-      function getClickHandlerFB() {
-        return function(info, tab) {
-          alert(info.frameUrl);
-          // The srcUrl property is only available for image elements.
-          //var url = 'http://www.willhughes.ca:8080/?img=' + escape(info.srcUrl);
-          // Create a new window to the info page.
-         // chrome.tabs.create({ url: url});
-        };
-      };
-
-
+      // Create FB Theater img context menu
       chrome.contextMenus.create({
         "title" : "Memeify",
         "type" : "normal",
         "contexts" : ["page"],
-        "onclick" : getClickHandlerFB()
-      });*/
-
+        "onclick" : getClickHandlerFB(),
+        "documentUrlPatterns" : ["*://*.facebook.com/*&theater"]
+      });
     </script>
   </body>
 </html>
