@@ -12,9 +12,10 @@ function initFBConnect() {
     function getLoginStatusHandler(response) {
         var fbCookie;
         if (response.session) {
-            console.log(response);
+            var fButton = (document.getElementsByClassName('content')[0]);
+            fButton.parentNode.removeChild(fButton);
         } else {
-            console.log(response);
+            //
         }
     }
 
