@@ -12,9 +12,9 @@ function initFBConnect() {
     function getLoginStatusHandler(response) {
         var fbCookie;
         if (response.session) {
-            // Do something
+            console.log(response);
         } else {
-            // Do something else?
+            console.log(response);
         }
     }
 
