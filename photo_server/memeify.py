@@ -72,7 +72,6 @@ def memeify(url, top, bot, x, y, width, height):
     save_buffer2.close()
 
 
-    getFromS3(originalOutput, top, bot)
     path = postToS3(output, originalOutput, top, bot)
 
     return path

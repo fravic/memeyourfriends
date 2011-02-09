@@ -7,7 +7,7 @@ AWS_ACCESS_KEY_ID = 'AKIAJQ5EWIERMNJBOSMQ'
 AWS_SECRET_ACCESS_KEY = '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'
 
 def getFromS3(image, topCaption, bottomCaption):
-    print "GET!"
+    #print "GET!"
     imgHash = hashlib.md5()
     imgHash.update(image)
     imgHashStr = imgHash.hexdigest()
@@ -24,7 +24,7 @@ def getFromS3(image, topCaption, bottomCaption):
 
 
 def postToS3(image, originalImage, topCaption, bottomCaption):
-    print "POST!"
+    #print "POST!"
     conn = S3Connection('AKIAJQ5EWIERMNJBOSMQ', 'CxMK3wAZ97lItqozZkNp8AmVoj58/TdrH+ClXNaB')
     
     imgHash = hashlib.md5()
