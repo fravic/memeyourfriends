@@ -1,6 +1,17 @@
-var APP_ID = "1c6f5e338c7989f098ad50f8c1224878";
+var APP_ID = "123679184369467";
 
-function initFBConnect() {
+function initFBConnect(img) {
+    var token = '';
+    var fbSubBtn = document.createElement('Button');
+    fbSubBtn.innerHTML = 'Upload to Facebook';
+    events(
+        fbSubBtn,
+        'click',
+        function(e) {
+            postToFacebook();
+        }
+    );
+
     FB.init({
         appId: APP_ID,
 		status: true,
@@ -9,19 +20,29 @@ function initFBConnect() {
     });
     FB.getLoginStatus(getLoginStatusHandler);
 
+    return {
+        getFacebookButton: getFacebookButton
+    };
+
     function getLoginStatusHandler(response) {
         var fbCookie;
         if (response.session) {
-            // Do something
-        } else {
-            // Do something else?
+            var fButton = (document.getElementsByClassName('content')[0]);
+            fButton.parentNode.removeChild(fButton);
+            token = session.token;
+        } else { }
+    }
+
+    function getFacebookButton() {
+        if(token) {
+            return fbSubBtn;
         }
     }
 
     function postToFacebook() {
         fbCookie = getCookie("fbs_" + APP_ID);
         token = getParam("access_token", fbCookie);
-        ajaxRequest(POST_TO_FB_URL, "token:"+token);
+        ajaxRequest('memeyourfriends.com/upload/', "token=" + token + "&url=" + img.src);
     }
 }
 

@@ -29,6 +29,7 @@ var load = function(e) {
     } catch(e) { }
 
 
+    events(window, 'keydown', submitKey);
     events(img, 'load', pictureLoaded);
     events(url, 'change', changePicture);
     events(tCrop, 'click', toggleCrop);
@@ -36,7 +37,7 @@ var load = function(e) {
     events(reset, 'click', resetPicture);
     events(sub, 'click', submit);
 
-    initFBConnect();
+    var fb = initFBConnect(img);
 
     function submit(e) {
         var bounds = crop.getBounds();
@@ -48,7 +49,7 @@ var load = function(e) {
             '&top=' + escape(top.value) + '&bot=' + escape(bot.value) +
             '&x=' + x + '&width=' + width +
             '&y=' + y + '&height=' + height;
-        var src = 'http://www.willhughes.ca:8080/' + params;
+        var src = 'http://willhughes.ca:8080/' + params;
         if(img.src === src) {
             return;
         }
@@ -57,7 +58,11 @@ var load = function(e) {
         img.src = src;
 
         crop.endCrop();
-     
+        
+        try {
+            sub.parentNode.insertBefore(fb.getFacebookButton(), sub);
+        } catch(e) {}
+
         img.parentNode.appendChild(loading);
         img.style.display = 'none';
 
@@ -67,6 +72,15 @@ var load = function(e) {
             p.replaceChild(reset, tCrop);
             crop.hide();
         } catch(e) {}
+    }
+
+    function submitKey(e) {
+        if(e.keyCode === 13) {
+            if(e.target && (e.target.tagName === "BUTTON" || e.target === url)) {
+                return false;
+            }
+            submit();
+        }
     }
 
     function srvError(e) {
@@ -95,6 +109,11 @@ var load = function(e) {
         if(loading.parentNode) {
             loading.parentNode.removeChild(loading);
         }
+
+        try {
+            var fBtn = fb.getFacebookButton();
+            fBtn.parentNode.removeChild(fBtn);
+        } catch(e) {}
 
         var p = reset.parentNode;
         p.replaceChild(rCrop, reset);
