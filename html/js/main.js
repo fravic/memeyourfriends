@@ -49,7 +49,7 @@ var load = function(e) {
             '&top=' + escape(top.value) + '&bot=' + escape(bot.value) +
             '&x=' + x + '&width=' + width +
             '&y=' + y + '&height=' + height;
-        var src = 'http://memeyourfriends.com/' + params;
+        var src = 'http://willhughes.ca:8080/' + params;
         if(img.src === src) {
             return;
         }
