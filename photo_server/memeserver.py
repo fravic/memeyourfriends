@@ -5,6 +5,7 @@ class HelloWorld:
         if not url:
             return file('../html/index.html').read()
         cherrypy.response.headers["Content-Type"] = "image/jpeg"
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         return memeify(url, top, bot, x, y, width, height)
     index.exposed = True
 

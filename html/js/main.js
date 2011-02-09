@@ -58,8 +58,10 @@ var load = function(e) {
         img.src = src;
 
         crop.endCrop();
-     
-        sub.parentNode.insertBefore(fb.getFacebookButton());
+        
+        try {
+            sub.parentNode.insertBefore(fb.getFacebookButton(), sub);
+        } catch(e) {}
 
         img.parentNode.appendChild(loading);
         img.style.display = 'none';
@@ -74,6 +76,9 @@ var load = function(e) {
 
     function submitKey(e) {
         if(e.keyCode === 13) {
+            if(e.target && (e.target.tagName === "BUTTON" || e.target === url)) {
+                return false;
+            }
             submit();
         }
     }
@@ -105,8 +110,10 @@ var load = function(e) {
             loading.parentNode.removeChild(loading);
         }
 
-        var fBtn = fb.getFacebookButton();
-        fBtn.parentNode.removeChild(fBtn);
+        try {
+            var fBtn = fb.getFacebookButton();
+            fBtn.parentNode.removeChild(fBtn);
+        } catch(e) {}
 
         var p = reset.parentNode;
         p.replaceChild(rCrop, reset);
