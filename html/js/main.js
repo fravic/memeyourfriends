@@ -29,6 +29,7 @@ var load = function(e) {
     } catch(e) { }
 
 
+    events(window, 'keydown', submitKey);
     events(img, 'load', pictureLoaded);
     events(url, 'change', changePicture);
     events(tCrop, 'click', toggleCrop);
@@ -69,6 +70,12 @@ var load = function(e) {
             p.replaceChild(reset, tCrop);
             crop.hide();
         } catch(e) {}
+    }
+
+    function submitKey(e) {
+        if(e.keyCode === 13) {
+            submit();
+        }
     }
 
     function srvError(e) {
