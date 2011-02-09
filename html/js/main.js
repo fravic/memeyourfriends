@@ -36,7 +36,7 @@ var load = function(e) {
     events(reset, 'click', resetPicture);
     events(sub, 'click', submit);
 
-    initFBConnect();
+    var fb = initFBConnect(img);
 
     function submit(e) {
         var bounds = crop.getBounds();
@@ -48,7 +48,7 @@ var load = function(e) {
             '&top=' + escape(top.value) + '&bot=' + escape(bot.value) +
             '&x=' + x + '&width=' + width +
             '&y=' + y + '&height=' + height;
-        var src = 'http://www.willhughes.ca:8080/' + params;
+        var src = 'http://memeyourfriends.com/' + params;
         if(img.src === src) {
             return;
         }
@@ -58,6 +58,8 @@ var load = function(e) {
 
         crop.endCrop();
      
+        sub.parentNode.insertBefore(fb.getFacebookButton());
+
         img.parentNode.appendChild(loading);
         img.style.display = 'none';
 
@@ -95,6 +97,9 @@ var load = function(e) {
         if(loading.parentNode) {
             loading.parentNode.removeChild(loading);
         }
+
+        var fBtn = fb.getFacebookButton();
+        fBtn.parentNode.removeChild(fBtn);
 
         var p = reset.parentNode;
         p.replaceChild(rCrop, reset);

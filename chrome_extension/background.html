@@ -9,7 +9,7 @@
       // Only appears for img elements
       function getClickHandler() {
         return function(info, tab) {
-          var url = 'http://www.willhughes.ca:8080/?img=' + escape(info.srcUrl);
+          var url = 'http://memeyourfriends.com/?img=' + escape(info.srcUrl);
           chrome.tabs.create({url: url});
         };
       };
@@ -34,7 +34,7 @@
       chrome.extension.onRequest.addListener(
         function(request, sender, sendResponse) {
           if(request.src) {
-            var url = 'http://www.willhughes.ca:8080/?img=' + escape(request.src);
+            var url = 'http://memeyourfriends.com/?img=' + escape(request.src);
             chrome.tabs.create({url: url});
           }
         }
