@@ -12,6 +12,7 @@ function createCrop() {
     };
     var dotSize = 12;
 
+    var crop = document.getElementById('crop');
     var cropBox = document.getElementById('cropBox');
     var cropP = cropBox.parentNode;
 
