@@ -5,6 +5,9 @@ from urllib2 import Request, urlopen, URLError, HTTPError
 from PIL import ImageFont
 from PIL import Image
 from PIL import ImageDraw
+from awsIntegration import postToS3
+from awsIntegration import getFromS3
+
 
 def memeify(url, top, bot, x, y, width, height):
     req = Request(url)
@@ -36,6 +39,19 @@ def memeify(url, top, bot, x, y, width, height):
     if x and y and width and height and int(width) > 0 and int(height) > 0:
         box = (int(x),int(y), int(x) + int(width), int(y) + int(height))
         img = img.crop(box)
+    
+    save_bufferi = cStringIO.StringIO()
+    img.save(save_bufferi, "JPEG")
+    preOutput = save_bufferi.getvalue()
+
+    save_bufferi.close()
+    
+
+    path = getFromS3(preOutput, top, bot)
+    if path:
+      return path
+    originalImage = img.copy()
+    
 
     if top: 
         drawText(img, top, True)
@@ -46,9 +62,19 @@ def memeify(url, top, bot, x, y, width, height):
     img.save(save_buffer, "JPEG")
     output = save_buffer.getvalue()
 
-    data.close()
     save_buffer.close()
-    return output
+    
+    save_buffer2 = cStringIO.StringIO()
+    originalImage.save(save_buffer2, "JPEG")
+    originalOutput = save_buffer2.getvalue()
+
+    data.close()
+    save_buffer2.close()
+
+
+    path = postToS3(output, originalOutput, top, bot)
+
+    return path
 
 
 def drawText(img, text, top):
@@ -125,9 +151,9 @@ if __name__ == '__main__':
 
     urls = [
         "http://www.wired.com/images_blogs/underwire/images/2009/04/09/random_dannyhajek.jpg",
-        "http://sphotos.ak.fbcdn.net/hphotos-ak-snc4/hs1358.snc4/163046_10150380922285181_787795180_16900389_5869434_n.jpg",
-        "http://www.storkie.com/blog/wp-content/uploads/2010/09/angry-baby-fist.jpg",
-        "http://www.21stcenturymed.org/sad-face.jpg",
+   #     "http://sphotos.ak.fbcdn.net/hphotos-ak-snc4/hs1358.snc4/163046_10150380922285181_787795180_16900389_5869434_n.jpg",
+    #    "http://www.storkie.com/blog/wp-content/uploads/2010/09/angry-baby-fist.jpg",
+     #   "http://www.21stcenturymed.org/sad-face.jpg",
         ]
 
     words = ["penis", "dicksdicksdicks", "boy do I love dicks", "love", "I", "the", "cow", "killed", "scary", "huge", "whhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhat", "crazy", "WOOT!", "Fravichasmanboobs"]
@@ -146,11 +172,13 @@ if __name__ == '__main__':
             if i is not 0:
                 bot += " "
             bot += words[random.randint(0, len(words) - 1)]
-
+        top = "hello"
+        bot = "wor"
         raw = memeify(url, top, bot, 100, 100, 300, 700)
-        data = cStringIO.StringIO(raw)        
-        img = Image.open(data)
-        img.save("meme1" + str(count) + ".jpg")
-        data.close()
+        print "https://s3.amazonaws.com/memeyourfriends/" + raw
+     #   data = cStringIO.StringIO(raw)        
+     #   img = Image.open(data)
+     #   img.save("meme1" + str(count) + ".jpg")
+     #   data.close()
 
 

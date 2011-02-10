@@ -5,8 +5,8 @@ class HelloWorld:
         if not url:
             return file('../html/index.html').read()
         cherrypy.response.headers["Content-Type"] = "image/jpeg"
-        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
-        return memeify(url, top, bot, x, y, width, height)
+        raise cherrypy.HTTPRedirect("https://s3.amazonaws.com/memeyourfriends/" +  memeify(url, top, bot, x, y, width, height))
+        return 0
     index.exposed = True
 
 cherrypy.quickstart(HelloWorld(), "/", "cherrypy_config.py")
