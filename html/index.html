@@ -5,41 +5,49 @@
 <html>
 <head>
 <title>Meme Your Friends</title>
+
 <script src="http://connect.facebook.net/en_US/all.js"></script>
+<script src='js/misc.js'></script>
+<script src='js/crop.js'></script>
+<script src='js/connect.js'></script>
+
 <script src='js/main.js'></script>
+
 <link rel='stylesheet' href='css/main.css' />
+
 </head>
 <body>
 
     <h1>MEME YOUR FRIENDS</h1>
 
-    <div id='img'>
+    <div id='text'>
         <label for='imgInput'>Picture URL</label>
         <input id='imgInput' type='text' />
         <button id='crop'>Start Cropping</button>
         <button id='cropReset'>Reset Cropping</button>
         <button id='reset'>Reset Picture</button>
-        <img id='initImg' />
-        <div id='cropBox'></div>
-    </div>
 
-    <div id='text'>
         <label for='top'>Top Caption</label>
         <input id='top' type='text' />
         <label for='bot'>Bottom Caption</label>
         <input id='bot' type='text' />
         <button id='submitBtm'>Submit</button>
+
+        <div class="content">
+          <fb:login-button
+             length="long"
+             size="large"
+             perms="user_photos,publish_stream">
+          </fb:login-button>
+        </div>
+    </div>
+
+    <div id='img'>
+        <img id='initImg' />
+        <div id='cropBox'></div>
     </div>
 
     <div id="fb-root"></div>
-
-    <div class="content">
-      <fb:login-button
-         length="long"
-         size="large"
-         perms="user_photos,publish_stream">
-      </fb:login-button>
-    </div>
 
 </body>
 </html>
