@@ -14,6 +14,23 @@ function _Application() {
 	alert("Failed to load picture.  Please try again.");
     }
 
+    this.setTopCaption(text) {
+	drawText(text, true);
+    }
+
+    this.setBottomCaption(text) {
+	drawText(text, false);
+    }
+
+    function drawText(text, top) {
+    }
+
+    function getFontSize(canvas, width, height, ratio) {
+    }
+
+    function wordWrap(canvas, text, width) {
+    }
+
     function selectFromLibrary() {
 	console.log("User selecting photo...");
 	try {

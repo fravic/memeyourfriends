@@ -12,6 +12,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		293A01FC13031FA400F98728 /* ChildBrowserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 293A01F713031FA400F98728 /* ChildBrowserCommand.m */; };
+		293A01FD13031FA400F98728 /* ChildBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 293A01F913031FA400F98728 /* ChildBrowserViewController.m */; };
+		293A01FE13031FA400F98728 /* ChildBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 293A01FA13031FA400F98728 /* ChildBrowserViewController.xib */; };
 		3009C2AC127B894C007F4BC6 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 3009C2AA127B894C007F4BC6 /* icon-72.png */; };
 		3009C2AD127B894C007F4BC6 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3009C2AB127B894C007F4BC6 /* icon@2x.png */; };
 		3009C2B2127B897D007F4BC6 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 3009C2B0127B897D007F4BC6 /* Default-Landscape.png */; };
@@ -59,6 +62,11 @@
 		1D6058910D05DD3D006BFB54 /* memegen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = memegen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		293A01F613031FA400F98728 /* ChildBrowserCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildBrowserCommand.h; sourceTree = "<group>"; };
+		293A01F713031FA400F98728 /* ChildBrowserCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChildBrowserCommand.m; sourceTree = "<group>"; };
+		293A01F813031FA400F98728 /* ChildBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildBrowserViewController.h; sourceTree = "<group>"; };
+		293A01F913031FA400F98728 /* ChildBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChildBrowserViewController.m; sourceTree = "<group>"; };
+		293A01FA13031FA400F98728 /* ChildBrowserViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChildBrowserViewController.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3009C2AA127B894C007F4BC6 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72.png"; sourceTree = "<group>"; };
 		3009C2AB127B894C007F4BC6 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
@@ -125,6 +133,19 @@
 				1D6058910D05DD3D006BFB54 /* memegen.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		293A01F513031FA400F98728 /* ChildBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				293A01F613031FA400F98728 /* ChildBrowserCommand.h */,
+				293A01F713031FA400F98728 /* ChildBrowserCommand.m */,
+				293A01F813031FA400F98728 /* ChildBrowserViewController.h */,
+				293A01F913031FA400F98728 /* ChildBrowserViewController.m */,
+				293A01FA13031FA400F98728 /* ChildBrowserViewController.xib */,
+			);
+			name = ChildBrowser;
+			path = ../../../../../../Projects/memegen/mobile/iOS/memegen/Plugins/ChildBrowser;
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
@@ -215,6 +236,7 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				293A01F513031FA400F98728 /* ChildBrowser */,
 			);
 			path = Plugins;
 			sourceTree = SOURCE_ROOT;
@@ -297,6 +319,7 @@
 				3009C2AD127B894C007F4BC6 /* icon@2x.png in Resources */,
 				3009C2B2127B897D007F4BC6 /* Default-Landscape.png in Resources */,
 				3009C2B3127B897D007F4BC6 /* Default-Portrait.png in Resources */,
+				293A01FE13031FA400F98728 /* ChildBrowserViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +363,8 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* memegenAppDelegate.m in Sources */,
+				293A01FC13031FA400F98728 /* ChildBrowserCommand.m in Sources */,
+				293A01FD13031FA400F98728 /* ChildBrowserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
